@@ -1,3 +1,47 @@
+var spanWrap = function(input) {
+  var outputArray = [];
+  var outputString;
+  var tagArray = [];
+  var tagString;
+  var spanCounter = 0;
+  var spanWrapObj = {};
+
+  for (var i=0; i<input.length; i++) {
+    if (input[i]===' '){
+      outputArray.push(' ');
+    } else if (input[i]==='<'){
+        tagArray = [];
+        while (input[i] !=='>'){
+          tagArray.push(input[i]);
+          i++;
+        }
+      tagArray.push('>');
+      tagString = tagArray.join('');
+      outputArray.push(tagString);
+    } else {
+        outputArray.push('<span id="span'+spanCounter+'">'+input[i]+'</span>');
+        spanCounter++;
+    }
+  };
+  outputString = outputArray.join('');
+  spanWrapObj.string = outputString;
+  spanWrapObj.count = spanCounter;
+  
+  return spanWrapObj;
+  
+};
+var reveal = function(count, total, callback){
+  $('#span'+count).fadeIn(5, function(){
+    if (callback) {
+      count++;
+      if (count<total) {
+        callback(count, total, reveal);
+      } else {
+          callback(count, total);
+        }
+    }
+  });//end of fadeIn callback
+}
 var lyrics = function(input) {
   var output = '';
   var userInput = parseInt(input);
@@ -24,11 +68,18 @@ var lyrics = function(input) {
 $(document).ready(function(){
   $('#start-button').click(function(){
     var input = $('#input').val();
-    $('#lyrics ul').html(lyrics(input));
-    $('#start').slideUp(2000);
+    var callbackCount = 0;
+    var spanTotal = spanWrap(lyrics(input)).count;
+    $('#lyrics').show();
+    $('#lyrics ul').html(spanWrap(lyrics(input)).string);
+    $('#start').slideUp(1000, function(){
 
+      console.log('callback function called');
+      console.log('count: ' + spanTotal);
 
-
+      reveal(callbackCount, spanTotal, reveal);
+      
+    });
   });//end button click function
 }); //end document.ready 
 
