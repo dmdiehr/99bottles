@@ -30,14 +30,25 @@ var spanWrap = function(input) {
   return spanWrapObj;
   
 };
-var reveal = function(count, total, callback){
-  $('#span'+count).fadeIn(5, function(){
+var randomHex = function() {
+  return '#'+Math.floor(Math.random()*16777215).toString(16);
+}
+var reveal = function(raveMode, count, total, callback){
+
+  if (raveMode) {
+    if (count%3===0){
+      $('body').css('background-image','linear-gradient('+randomHex()+','+randomHex()+')');
+    }
+    $('#span'+count).css('color', randomHex());
+  } //rave mode ends
+
+  $('#span'+count).fadeIn(50, function(){
     if (callback) {
       count++;
       if (count<total) {
-        callback(count, total, reveal);
+        callback(raveMode, count, total, reveal);
       } else {
-          callback(count, total);
+          callback(raveMode, count, total);
         }
     }
   });//end of fadeIn callback
@@ -67,17 +78,16 @@ var lyrics = function(input) {
 
 $(document).ready(function(){
   $('#start-button').click(function(){
+    var raveMode = $('#rave').is(':checked');
     var input = $('#input').val();
     var callbackCount = 0;
     var spanTotal = spanWrap(lyrics(input)).count;
     $('#lyrics').show();
     $('#lyrics ul').html(spanWrap(lyrics(input)).string);
     $('#start').slideUp(1000, function(){
+      // $('body').css('background-image','linear-gradient(red, yellow, red)');
 
-      console.log('callback function called');
-      console.log('count: ' + spanTotal);
-
-      reveal(callbackCount, spanTotal, reveal);
+      reveal(raveMode, callbackCount, spanTotal, reveal);
       
     });
   });//end button click function
