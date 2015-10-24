@@ -85,10 +85,7 @@ $(document).ready(function(){
     $('#lyrics').show();
     $('#lyrics ul').html(spanWrap(lyrics(input)).string);
     $('#start').slideUp(1000, function(){
-      // $('body').css('background-image','linear-gradient(red, yellow, red)');
-
-      reveal(raveMode, callbackCount, spanTotal, reveal);
-      
+        reveal(raveMode, callbackCount, spanTotal, reveal);
     });
   });//end button click function
 }); //end document.ready 
