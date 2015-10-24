@@ -1,4 +1,4 @@
-#Layout Test
+#99 Bottles
 ###Introduction to Programming
 ###JavaScript BDD code review due 10/24/15
 
@@ -8,7 +8,7 @@
 
 This is a program that allows a user to enter an arbitrary number and have the lyrics of '99 bottles of beer' generated, starting with that number. It's purpose is to demonstrate my ability to write and test code using the BDD model... and to prove the point that thinking up the tests for a simple program can be about ten times as hard as just writing the thing.
 
-And even though this is only supposed to a test of 'programming logic,' I include a simple interface so we can see the program in action.
+And even though this is only supposed to a test of 'programming logic,' I include a simple interface so we can see the program in action. ...And then I added a typerwriter(ish) animation. Fun fact: I wrote the spanWrap() function using the BDD model. (I used the refresh the screen and stare at the results model for the reveal() function. I'm not sure if there's a way to write tests for dealing with jquery animation.) And just for fun I added a 'rave mode' option for the typewriter effect. (More modes to come.)
 
 ## Setup
 
