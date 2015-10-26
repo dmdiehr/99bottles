@@ -33,22 +33,29 @@ var spanWrap = function(input) {
 var randomHex = function() {
   return '#'+Math.floor(Math.random()*16777215).toString(16);
 }
-var reveal = function(raveMode, count, total, callback){
+var reveal = function(mode, count, total, callback){
 
-  if (raveMode) {
-    if (count%3===0){
+  if (mode==='rave') {
+    if (count%2===0){
       $('body').css('background-image','linear-gradient('+randomHex()+','+randomHex()+')');
     }
     $('#span'+count).css('color', randomHex());
   } //rave mode ends
 
-  $('#span'+count).fadeIn(50, function(){
+  if (mode==='psychedelic') {
+    $('#span'+count).css('color', 'white');
+    if (count%2===0){
+        gradientMutator(inputObj);
+    }
+  }
+
+  $('#span'+count).fadeIn(70, function(){
     if (callback) {
       count++;
       if (count<total) {
-        callback(raveMode, count, total, reveal);
+        callback(mode, count, total, reveal);
       } else {
-          callback(raveMode, count, total);
+          callback(mode, count, total);
         }
     }
   });//end of fadeIn callback
@@ -77,15 +84,24 @@ var lyrics = function(input) {
 }
 
 $(document).ready(function(){
+
+  $('input.box').on('change', function() {
+    $('input.box').not(this).prop('checked', false);  
+});
   $('#start-button').click(function(){
-    var raveMode = $('#rave').is(':checked');
+    if ($('#rave').is(':checked')) {
+      var mode = 'rave';
+    };
+    if ($('#psychedelic').is(':checked')) {
+      var mode = 'psychedelic';
+    }
     var input = $('#input').val();
     var callbackCount = 0;
     var spanTotal = spanWrap(lyrics(input)).count;
     $('#lyrics').show();
     $('#lyrics ul').html(spanWrap(lyrics(input)).string);
     $('#start').slideUp(1000, function(){
-        reveal(raveMode, callbackCount, spanTotal, reveal);
+        reveal(mode, callbackCount, spanTotal, reveal);
     });
   });//end button click function
 }); //end document.ready 
